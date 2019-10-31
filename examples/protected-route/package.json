@@ -2,7 +2,6 @@
   "name": "protected-route",
   "version": "0.1.0",
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.4.0",
     "dotenv": "^8.2.0",
     "react": "../../node_modules/react",
     "react-dom": "../../node_modules/react-dom",

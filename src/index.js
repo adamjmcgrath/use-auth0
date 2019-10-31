@@ -21,14 +21,15 @@ export const Auth0Provider = ({
 }) => {
   const [authState, dispatch] = useReducer(reducer, {
     loading: true,
-    popupOpen: false,
+    popupOpen: false
   });
   const auth0ClientRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const auth0Client =
-        auth0ClientRef.current = await createAuth0Client(initOptions);
+      const auth0Client = (auth0ClientRef.current = await createAuth0Client(
+        initOptions
+      ));
 
       if (CODE_PARAM_RE.test(queryString)) {
         const { appState } = await auth0Client.handleRedirectCallback();
@@ -36,7 +37,7 @@ export const Auth0Provider = ({
       }
 
       const isAuthenticated = await auth0Client.isAuthenticated();
-      const user = isAuthenticated && await auth0Client.getUser();
+      const user = isAuthenticated && (await auth0Client.getUser());
 
       dispatch({ type: INITIALISED, isAuthenticated, user });
     })();
@@ -44,15 +45,17 @@ export const Auth0Provider = ({
 
   const auth0Client = auth0ClientRef.current;
   return (
-    <Auth0Context.Provider value={{
-      ...authState,
-      loginWithPopup: loginWithPopup(auth0ClientRef, dispatch),
-      getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
-      loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
-      getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
-      getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
-      logout: (...p) => auth0Client.logout(...p),
-    }}>
+    <Auth0Context.Provider
+      value={{
+        ...authState,
+        loginWithPopup: loginWithPopup(auth0ClientRef, dispatch),
+        getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
+        loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
+        getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
+        getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
+        logout: (...p) => auth0Client.logout(...p)
+      }}
+    >
       {children}
     </Auth0Context.Provider>
   );

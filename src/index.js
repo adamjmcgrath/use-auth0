@@ -6,6 +6,9 @@ import loginWithPopup from './login-with-popup';
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
+// Identify the `code` parameter in a query string.
+const CODE_PARAM_RE = /[\?&#]code=[^&]+/;
+
 export const Auth0Context = React.createContext();
 
 export const useAuth0 = () => useContext(Auth0Context);
@@ -13,6 +16,7 @@ export const useAuth0 = () => useContext(Auth0Context);
 export const Auth0Provider = ({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
+  queryString = window.location.search,
   ...initOptions
 }) => {
   const [authState, dispatch] = useReducer(reducer, {
@@ -26,7 +30,7 @@ export const Auth0Provider = ({
       const auth0Client =
         auth0ClientRef.current = await createAuth0Client(initOptions);
 
-      if (window.location.search.includes('code=')) {
+      if (CODE_PARAM_RE.test(queryString)) {
         const { appState } = await auth0Client.handleRedirectCallback();
         onRedirectCallback(appState);
       }

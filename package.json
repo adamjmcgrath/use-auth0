@@ -4,7 +4,7 @@
   "description": "React Hooks library for use with the Auth0 API https://auth0.com",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "rollup -c",
     "dev": "rollup -c --watch"
   },
@@ -19,6 +19,10 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
+    "@testing-library/react": "^9.3.1",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "rollup": "^1.26.0",

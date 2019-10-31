@@ -1,7 +1,4 @@
-import {
-  LOGIN_WITH_POPUP_STARTED,
-  LOGIN_WITH_POPUP_COMPLETE,
-} from './reducer';
+import { LOGIN_WITH_POPUP_STARTED, LOGIN_WITH_POPUP_COMPLETE } from './reducer';
 
 export default ({ current: auth0Client }, dispatch) => async (params = {}) => {
   dispatch({ type: LOGIN_WITH_POPUP_STARTED });
@@ -11,6 +8,6 @@ export default ({ current: auth0Client }, dispatch) => async (params = {}) => {
     console.error(error);
   }
   const isAuthenticated = await auth0Client.isAuthenticated();
-  const user = isAuthenticated && await auth0Client.getUser();
+  const user = isAuthenticated && (await auth0Client.getUser());
   dispatch({ type: LOGIN_WITH_POPUP_COMPLETE, isAuthenticated, user });
 };

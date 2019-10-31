@@ -9,19 +9,19 @@ export default (state, { type, isAuthenticated, user }) => {
         ...state,
         isAuthenticated,
         user,
-        loading: false,
+        loading: false
       };
     case LOGIN_WITH_POPUP_STARTED:
       return {
         ...state,
-        popupOpen: true,
+        popupOpen: true
       };
     case LOGIN_WITH_POPUP_COMPLETE:
       return {
         ...state,
         isAuthenticated,
         user,
-        popupOpen: false,
+        popupOpen: false
       };
     default:
       throw new Error(`Unrecognized action type: '${type}'`);

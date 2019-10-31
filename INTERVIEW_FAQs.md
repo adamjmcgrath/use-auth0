@@ -1,11 +1,9 @@
 # FAQs:
 
 - Didn't you just 'borrow' our quickstart?
-    - Yes, but it was the most idiomatic react way of creating global state and
-      async side effects, needed for doing auth in modern react apps
     - I have rewritten parts of the hook implementation to improve consistency, 
       performance and tesability 
-    - I added value through setting up testing, packaging and deploying
+    - I also hope I've added value through the testing, packaging and deploying
 - Why did you use a reducer?
     - I wanted to reduce number of renders (to improve performance)
     - make atomic updates (so we don't have partial intended state like

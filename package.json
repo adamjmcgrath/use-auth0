@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
-    "dev": "rollup -c --watch"
+    "dev": "rollup -c --watch",
+    "prettier": "prettier --write src/* test/*",
+    "lint": "eslint src/* test/*"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,9 @@
     "@babel/preset-react": "^7.6.3",
     "@testing-library/react": "^9.3.1",
     "babel-jest": "^24.9.0",
+    "eslint": "^6.6.0",
+    "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-react": "^7.16.0",
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "react": "16.11.0",

@@ -44,9 +44,9 @@ describe('loginWithPopup', () => {
       getUser: jest.fn()
     };
 
-    await getLoginWithPopup({ current: auth0Client }, dispatch)('foo');
+    await getLoginWithPopup({ current: auth0Client }, dispatch)();
 
-    expect(loginWithPopup).toHaveBeenCalledWith('foo');
+    expect(loginWithPopup).toHaveBeenCalledWith({});
     expect(dispatch).toHaveBeenCalledTimes(2);
     expect(errSpy).toHaveBeenCalledWith('bar');
     errSpy.mockRestore();

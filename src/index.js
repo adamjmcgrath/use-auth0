@@ -7,7 +7,7 @@ const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
 // Identify the `code` parameter in a query string.
-const CODE_PARAM_RE = /[\?&#]code=[^&]+/;
+const CODE_PARAM_RE = /[?&#]code=[^&]+/;
 
 export const Auth0Context = React.createContext();
 

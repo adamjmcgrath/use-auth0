@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import createAuth0Client from '@auth0/auth0-spa-js';
 import {
   cleanup,
@@ -9,18 +9,6 @@ import {
 import { Auth0Provider, useAuth0 } from '../src/index';
 
 jest.mock('@auth0/auth0-spa-js');
-
-function Component() {
-  const { loading, popupOpen, user, isAuthenticated } = useAuth0();
-  return (
-    <ul>
-      <li>loading: {`${loading}`}</li>
-      <li>popupOpen: {`${popupOpen}`}</li>
-      <li>authenticated: {`${isAuthenticated}`}</li>
-      <li>user: {user}</li>
-    </ul>
-  );
-}
 
 describe('index', () => {
   afterEach(cleanup);
@@ -59,6 +47,26 @@ describe('index', () => {
     await waitForDomChange();
     expect(handleRedirectCallback).toHaveBeenCalled();
     expect(cb).toHaveBeenCalledWith('foo');
+  });
+
+  it('should handle the redirect callback with default handler', async () => {
+    const cb = jest.spyOn(window.history, 'replaceState').mockImplementation();
+    const handleRedirectCallback = jest
+      .fn()
+      .mockResolvedValue({ appState: 'foo' });
+    createAuth0Client.mockResolvedValue({
+      isAuthenticated: jest.fn(),
+      handleRedirectCallback
+    });
+    render(
+      <Auth0Provider queryString="?code=my-code">
+        <Component />
+      </Auth0Provider>
+    );
+    await waitForDomChange();
+    expect(handleRedirectCallback).toHaveBeenCalled();
+    expect(cb).toHaveBeenCalledWith({}, expect.any(String), expect.any(String));
+    cb.mockRestore();
   });
 
   it('should only handle the redirect with the correct param', async () => {
@@ -113,25 +121,6 @@ describe('index', () => {
   });
 
   it('should expose api methods', async () => {
-    function OtherComponent() {
-      const {
-        loading,
-        getIdTokenClaims,
-        loginWithRedirect,
-        getTokenSilently,
-        getTokenWithPopup,
-        logout
-      } = useAuth0();
-      if (!loading) {
-        getIdTokenClaims('foo');
-        loginWithRedirect('bar');
-        getTokenSilently('baz');
-        getTokenWithPopup('qux');
-        logout('quux');
-      }
-      return <div>{loading + ''}</div>;
-    }
-
     const getIdTokenClaims = jest.fn();
     const loginWithRedirect = jest.fn();
     const getTokenSilently = jest.fn();
@@ -139,47 +128,33 @@ describe('index', () => {
     const logout = jest.fn();
 
     createAuth0Client.mockResolvedValue({
-      isAuthenticated: jest.fn().mockResolvedValue(false),
+      isAuthenticated: jest.fn(),
       getIdTokenClaims,
       loginWithRedirect,
       getTokenSilently,
       getTokenWithPopup,
       logout
     });
-    render(
+    const { getByText } = render(
       <Auth0Provider>
-        <OtherComponent />
+        <Component />
       </Auth0Provider>
     );
     await waitForDomChange();
-    expect(getIdTokenClaims).toHaveBeenCalledWith('foo');
-    expect(loginWithRedirect).toHaveBeenCalledWith('bar');
-    expect(getTokenSilently).toHaveBeenCalledWith('baz');
-    expect(getTokenWithPopup).toHaveBeenCalledWith('qux');
-    expect(logout).toHaveBeenCalledWith('quux');
+    fireEvent.click(getByText('getIdTokenClaims'));
+    fireEvent.click(getByText('loginWithRedirect'));
+    fireEvent.click(getByText('getTokenSilently'));
+    fireEvent.click(getByText('getTokenWithPopup'));
+    fireEvent.click(getByText('logout'));
+
+    expect(getIdTokenClaims).toHaveBeenCalledWith('bar');
+    expect(loginWithRedirect).toHaveBeenCalledWith('baz');
+    expect(getTokenSilently).toHaveBeenCalledWith('qux');
+    expect(getTokenWithPopup).toHaveBeenCalledWith('quux');
+    expect(logout).toHaveBeenCalledWith('quuux');
   });
 
   it('should login with a popup', async () => {
-    function OtherComponent() {
-      const {
-        loading,
-        popupOpen,
-        user,
-        isAuthenticated,
-        loginWithPopup
-      } = useAuth0();
-      return (
-        <ul>
-          <li>
-            <button onClick={() => loginWithPopup('foo')}>Log in</button>
-          </li>
-          <li>loading: {`${loading}`}</li>
-          <li>popupOpen: {`${popupOpen}`}</li>
-          <li>authenticated: {`${isAuthenticated}`}</li>
-          <li>user: {user}</li>
-        </ul>
-      );
-    }
     const loginWithPopup = jest.fn();
     createAuth0Client.mockResolvedValue({
       isAuthenticated: jest.fn().mockResolvedValue(true),
@@ -188,11 +163,11 @@ describe('index', () => {
     });
     const { getByText } = render(
       <Auth0Provider>
-        <OtherComponent />
+        <Component />
       </Auth0Provider>
     );
     await waitForDomChange();
-    fireEvent.click(getByText('Log in'));
+    fireEvent.click(getByText('loginWithPopup'));
     expect(loginWithPopup).toHaveBeenCalledWith('foo');
     expect(getByText('popupOpen: true')).toBeTruthy();
     await waitForDomChange();
@@ -201,3 +176,52 @@ describe('index', () => {
     expect(getByText('user: Bob')).toBeTruthy();
   });
 });
+
+function Component() {
+  const {
+    loading,
+    popupOpen,
+    user,
+    isAuthenticated,
+    loginWithPopup,
+    getIdTokenClaims,
+    loginWithRedirect,
+    getTokenSilently,
+    getTokenWithPopup,
+    logout
+  } = useAuth0();
+  return (
+    <ul>
+      <li>loading: {`${loading}`}</li>
+      <li>popupOpen: {`${popupOpen}`}</li>
+      <li>authenticated: {`${isAuthenticated}`}</li>
+      <li>user: {user}</li>
+      <li>
+        <button onClick={() => loginWithPopup('foo')}>loginWithPopup</button>
+      </li>
+      <li>
+        <button onClick={() => getIdTokenClaims('bar')}>
+          getIdTokenClaims
+        </button>
+      </li>
+      <li>
+        <button onClick={() => loginWithRedirect('baz')}>
+          loginWithRedirect
+        </button>
+      </li>
+      <li>
+        <button onClick={() => getTokenSilently('qux')}>
+          getTokenSilently
+        </button>
+      </li>
+      <li>
+        <button onClick={() => getTokenWithPopup('quux')}>
+          getTokenWithPopup
+        </button>
+      </li>
+      <li>
+        <button onClick={() => logout('quuux')}>logout</button>
+      </li>
+    </ul>
+  );
+}

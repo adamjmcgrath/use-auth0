@@ -177,43 +177,30 @@ function Component() {
       <li>authenticated: {`${isAuthenticated}`}</li>
       <li>user: {user}</li>
       <li>
-        <button id="login-with-popup" onClick={() => loginWithPopup('foo')}>
-          loginWithPopup
-        </button>
+        <button onClick={() => loginWithPopup('foo')}>loginWithPopup</button>
       </li>
       <li>
-        <button
-          id="get-id-token-claims"
-          onClick={() => getIdTokenClaims('bar')}
-        >
+        <button onClick={() => getIdTokenClaims('bar')}>
           getIdTokenClaims
         </button>
       </li>
       <li>
-        <button
-          id="login-with-redirect"
-          onClick={() => loginWithRedirect('baz')}
-        >
+        <button onClick={() => loginWithRedirect('baz')}>
           loginWithRedirect
         </button>
       </li>
       <li>
-        <button id="get-token-silently" onClick={() => getTokenSilently('qux')}>
+        <button onClick={() => getTokenSilently('qux')}>
           getTokenSilently
         </button>
       </li>
       <li>
-        <button
-          id="get-token-with-popup"
-          onClick={() => getTokenWithPopup('quux')}
-        >
+        <button onClick={() => getTokenWithPopup('quux')}>
           getTokenWithPopup
         </button>
       </li>
       <li>
-        <button id="logout" onClick={() => logout('quuux')}>
-          logout
-        </button>
+        <button onClick={() => logout('quuux')}>logout</button>
       </li>
     </ul>
   );

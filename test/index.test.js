@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import createAuth0Client from '@auth0/auth0-spa-js';
 import {
   cleanup,

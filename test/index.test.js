@@ -49,6 +49,26 @@ describe('index', () => {
     expect(cb).toHaveBeenCalledWith('foo');
   });
 
+  it('should handle the redirect callback with default handler', async () => {
+    const cb = jest.spyOn(window.history, 'replaceState').mockImplementation();
+    const handleRedirectCallback = jest
+      .fn()
+      .mockResolvedValue({ appState: 'foo' });
+    createAuth0Client.mockResolvedValue({
+      isAuthenticated: jest.fn(),
+      handleRedirectCallback
+    });
+    render(
+      <Auth0Provider queryString="?code=my-code">
+        <Component />
+      </Auth0Provider>
+    );
+    await waitForDomChange();
+    expect(handleRedirectCallback).toHaveBeenCalled();
+    expect(cb).toHaveBeenCalledWith({}, expect.any(String), expect.any(String));
+    cb.mockRestore();
+  });
+
   it('should only handle the redirect with the correct param', async () => {
     const cb = jest.fn();
     const handleRedirectCallback = jest

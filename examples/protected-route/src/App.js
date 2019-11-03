@@ -1,21 +1,21 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import { useAuth0 } from 'use-auth0';
+import Profile from './components/Profile';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
-  const { loading } = useAuth0();
-
-  if (loading) {
-    return (
-      <div>Loading...</div>
-    );
-  }
-
   return (
-    <div className='App'>
-      <header>
-        <NavBar />
-      </header>
+    <div className="App">
+      <BrowserRouter>
+        <header>
+          <NavBar />
+        </header>
+        <Switch>
+          <Route path="/" exact />
+          <PrivateRoute path="/profile" component={Profile} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

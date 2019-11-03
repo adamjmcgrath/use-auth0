@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom';
 import App from './App';
-import { Auth0Provider } from 'use-auth0';
+import { Auth0Provider } from '@adamjmcgrath/use-auth0';
 
 // A function that routes the user to the right place
 // after login

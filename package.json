@@ -8,7 +8,7 @@
     "test": "jest",
     "build": "NODE_ENV=production rollup -c",
     "dev": "rollup -c --watch",
-    "lint": "eslint src/* test/* *.js"
+    "lint": "eslint src/* test/* *.js examples/**/*.js"
   },
   "husky": {
     "hooks": {

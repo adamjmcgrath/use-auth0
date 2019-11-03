@@ -5,8 +5,9 @@
     "dotenv": "^8.2.0",
     "react": "../../node_modules/react",
     "react-dom": "../../node_modules/react-dom",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "use-auth0": "file:../.."
+    "@adamjmcgrath/use-auth0": "file:../.."
   },
   "scripts": {
     "start": "react-scripts start",

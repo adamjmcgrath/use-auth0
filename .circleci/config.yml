@@ -8,7 +8,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-  store_test_results:
-    path: test-results
-  store_artifacts:
-    path: coverage
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: coverage

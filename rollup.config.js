@@ -1,7 +1,8 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import del from 'rollup-plugin-delete'
+import del from 'rollup-plugin-delete';
 import resolve from 'rollup-plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: './src/index.js',
@@ -15,7 +16,8 @@ export default {
       exclude: 'node_modules/**'
     }),
     resolve(),
-    commonjs()
+    commonjs(),
+    process.env.NODE_ENV === 'production' && terser()
   ],
   external: id => /^react/.test(id)
-}
+};

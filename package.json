@@ -1,6 +1,6 @@
 {
   "name": "@adamjmcgrath/use-auth0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Hooks library for use with the Auth0 API https://auth0.com",
   "main": "dist/index.js",
   "scripts": {

@@ -2,13 +2,12 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom';
 import App from './App';
 import { Auth0Provider } from '@adamjmcgrath/use-auth0';
+import history from './history';
 
 // A function that routes the user to the right place
 // after login
 const onRedirectCallback = appState => {
-  window.history.replaceState(
-    {},
-    document.title,
+  history.replace(
     appState && appState.targetUrl
       ? appState.targetUrl
       : window.location.pathname
